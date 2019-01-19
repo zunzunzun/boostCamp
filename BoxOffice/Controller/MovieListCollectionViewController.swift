@@ -112,17 +112,15 @@ extension MovieListCollectionViewController: UICollectionViewDataSource {
         cell.detailInfoLabel.text = "\(movie.grade)위(\(movie.userRating)) / \(movie.reservationRate)%"
         cell.releaseDateLabel.text = movie.date
         cell.ageImageView.image = UIImage(named: movie.imageString)
-        OperationQueue().addOperation {
-            if let imageURL = URL(string: movie.thumb) {
-                do {
-                    let imageData = try Data.init(contentsOf: imageURL)
-                    let image = UIImage(data: imageData)
-                    DispatchQueue.main.async {
-                        cell.posterImageView.image = image
-                    }
-                } catch {
+        if let url = URL(string: movie.thumb) {
+            Network.fetchImage(url) { data, error in
+                if let error = error {
                     print(error.localizedDescription)
+                    return
                 }
+                guard let data = data else { return }
+                let image = UIImage(data: data)
+                cell.posterImageView.image = image
             }
         }
         return cell

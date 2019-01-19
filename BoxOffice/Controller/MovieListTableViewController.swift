@@ -135,17 +135,15 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
         cell.ageImageView.image = UIImage(named: movie.imageString)
         cell.detailInfoLabel.text = "평점 : \(movie.userRating)  예매순위 : \(movie.reservationGrade)  예매율 : \(movie.reservationRate)"
         cell.releaseDateLabel.text = "개봉일 : \(movie.date)"
-        OperationQueue().addOperation {
-            if let imageURL = URL(string: movie.thumb) {
-                do {
-                    let imageData = try Data.init(contentsOf: imageURL)
-                    let image = UIImage(data: imageData)
-                    DispatchQueue.main.async {
-                        cell.posterImageView.image = image
-                    }
-                } catch {
+        if let url = URL(string: movie.thumb) {
+            Network.fetchImage(url) { data, error in
+                if let error = error {
                     print(error.localizedDescription)
+                    return
                 }
+                guard let data = data else { return }
+                let image = UIImage(data: data)
+                cell.posterImageView.image = image
             }
         }
         return cell

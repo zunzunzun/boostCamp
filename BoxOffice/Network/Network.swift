@@ -18,4 +18,17 @@ class Network {
         task.resume()
         session.finishTasksAndInvalidate()
     }
+    
+    class func fetchImage(_ url: URL, completion: @escaping (Data?, Error?) -> Void) {
+        DispatchQueue.global(qos: .background).async {
+            do {
+                let imageData = try Data(contentsOf: url)
+                DispatchQueue.main.async {
+                    completion(imageData, nil)
+                }
+            } catch {
+                completion(nil, error)
+            }
+        }
+    }
 }
