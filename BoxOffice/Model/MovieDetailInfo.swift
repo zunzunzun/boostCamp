@@ -6,6 +6,8 @@
 //  Copyright © 2019 zunzun. All rights reserved.
 //
 
+import Foundation
+
 struct MovieDetailInfo: Codable {
     let audience: Int
     let actor: String
@@ -22,17 +24,20 @@ struct MovieDetailInfo: Codable {
     let date: String
     let id: String
     
-    var audienceString: String {
-        var value = audience
-        var temp: String = ""
-        while true {
-            if value / 1000 == 0 {
-                return "\(value % 1000)\(temp)"
-            } else {
-                temp = ",\(value % 1000)\(temp)"
-                value = value / 1000
-            }
-        }
+    var audienceString: String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value: audience))
+//        var value = audience
+//        var temp: String = ""
+//        while true {
+//            if value / 1000 == 0 {
+//                return "\(value % 1000)\(temp)"
+//            } else {
+//                temp = ",\(value % 1000)\(temp)"
+//                value = value / 1000
+//            }
+//        }
     }
     
     enum CodingKeys: String, CodingKey {
