@@ -79,7 +79,7 @@ extension MovieListTableViewController {
                 let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
                 Singleton.shared.movies = apiResponse.movies
                 DispatchQueue.main.async {
-                    self.navigationTitleSetup(orderType: Singleton.shared.orderType)
+                    self.setNavigationTitle(orderType: Singleton.shared.orderType)
                     self.tableView.reloadData()
                 }
                 print("API Response Download Success!")
@@ -92,7 +92,7 @@ extension MovieListTableViewController {
         dataTask.resume()
     }
     
-    func navigationTitleSetup(orderType: String) {
+    func setNavigationTitle(orderType: String) {
         switch orderType {
         case "0":
             navigationItem.title = "예매율순"

@@ -32,7 +32,7 @@ class DetailInfoTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func settingUserRating(rating: Double) {
+    func setUserRating(to rating: Double) {
         var index: Int = 0
         var value: Double = 2
         while true {
