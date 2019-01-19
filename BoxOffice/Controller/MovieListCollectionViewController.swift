@@ -59,37 +59,21 @@ extension MovieListCollectionViewController {
     }
     
     func requestMovies(orderType: String) {
-        guard let url = URL(string: Singleton.shared.url + detailUrl + orderType) else {
-            print("URL error!")
-            return
-        }
-        let session = URLSession(configuration: .default)
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
+        API.shared.requestMovies(orderType: orderType) { response, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            guard let data = data else {
-                print("data error!")
-                return
-            }
-            do {
-                let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
-                Singleton.shared.movies = apiResponse.movies
-                DispatchQueue.main.async {
-                    self.navigationTitleSetup(orderType: Singleton.shared.orderType)
-                    self.collectionView.reloadData()
-                }
-                print("API Response Download Success!")
-            } catch let error {
-                print(error.localizedDescription)
-                return
+            guard let response = response else { return }
+            Singleton.shared.movies = response.movies
+            DispatchQueue.main.async { [weak self] in
+                self?.setNavigationTitle(orderType: Singleton.shared.orderType)
+                self?.collectionView.reloadData()
             }
         }
-        dataTask.resume()
     }
     
-    func navigationTitleSetup(orderType: String) {
+    func setNavigationTitle(orderType: String) {
         switch orderType {
         case "0":
             navigationItem.title = "예매율순"
