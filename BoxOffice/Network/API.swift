@@ -27,4 +27,36 @@ class API {
             }
         }
     }
+    
+    func requestDetailInfo(movieID id: String, completion: @escaping (MovieDetailInfo?, Error?) -> Void) {
+        guard let url = URL(string: "\(Singleton.shared.url)movie?id=\(id)") else { return }
+        Network.get(url) { data, error in
+            if let data = data {
+                do {
+                    let movieDetailInfo = try JSONDecoder().decode(MovieDetailInfo.self, from: data)
+                    completion(movieDetailInfo, nil)
+                } catch {
+                    completion(nil, error)
+                }
+            } else {
+                completion(nil, error)
+            }
+        }
+    }
+    
+    func requestComment(movieID id: String, completion: @escaping (CommentsList?, Error?) -> Void) {
+        guard let url = URL(string: "\(Singleton.shared.url)comments?movie_id=\(id)") else { return }
+        Network.get(url) { data, error in
+            if let data = data {
+                do {
+                    let commentList = try JSONDecoder().decode(CommentsList.self, from: data)
+                    completion(commentList, nil)
+                } catch {
+                    completion(nil, error)
+                }
+            } else {
+                completion(nil, error)
+            }
+        }
+    }
 }
