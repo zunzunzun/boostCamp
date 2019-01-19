@@ -107,29 +107,12 @@ extension MovieListTableViewController {
 }
 
 //MARK:- Cell
-extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Singleton.shared.movies.count
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailInfoVC") as? MovieDetailInfoViewController else {
-            return
-        }
-        viewController.id = Singleton.shared.movies[indexPath.item].id
-        viewController.navigationItem.title = Singleton.shared.movies[indexPath.row].title
-        navigationController?.pushViewController(viewController, animated: true)
-    }
-    
+extension MovieListTableViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.movieListTableViewCellIdentifier, for: indexPath) as? MovieListTableViewCell else {
             return UITableViewCell()
         }
+        cell.delegate = self
         let movie = Singleton.shared.movies[indexPath.row]
         cell.titleLabel.text = movie.title
         cell.ageImageView.image = UIImage(named: movie.imageString)
@@ -147,5 +130,25 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
             }
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return Singleton.shared.movies.count
+    }
+}
+
+extension MovieListTableViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailInfoVC") as? MovieDetailInfoViewController else {
+            return
+        }
+        viewController.id = Singleton.shared.movies[indexPath.item].id
+        viewController.navigationItem.title = Singleton.shared.movies[indexPath.row].title
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
