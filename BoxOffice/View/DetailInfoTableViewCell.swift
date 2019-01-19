@@ -22,8 +22,9 @@ class DetailInfoTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        let view = ratingView.arrangedSubviews[0] as! UIImageView
-        view.image = UIImage(named: "icHalfStar")
+        if let imageView = ratingView.arrangedSubviews.first as? UIImageView {
+            imageView.image = UIImage(named: "icHalfStar")
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

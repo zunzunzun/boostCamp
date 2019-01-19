@@ -94,6 +94,25 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		191C1F0C21F3746C00F31ED8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AF3AD33321C63E6400DA30BD /* MovieListTableViewController.swift */,
+				AF3AD34021C6AD0A00DA30BD /* MovieListCollectionViewController.swift */,
+				AF3AD34621C6CAC600DA30BD /* MovieDetailInfoViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		191C1F0D21F3749700F31ED8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AF3AD32121C6309A00DA30BD /* AppDelegate.swift */,
+				AF3AD32821C6309C00DA30BD /* Assets.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		AF3AD31521C6309A00DA30BD = {
 			isa = PBXGroup;
 			children = (
@@ -113,16 +132,13 @@
 		AF3AD32021C6309A00DA30BD /* BoxOffice */ = {
 			isa = PBXGroup;
 			children = (
+				AF3AD32D21C6309C00DA30BD /* Info.plist */,
+				AF3AD32A21C6309C00DA30BD /* LaunchScreen.storyboard */,
+				AF3AD32521C6309B00DA30BD /* Main.storyboard */,
 				AF3AD33721C6461800DA30BD /* Model */,
 				191C1F0121F3480C00F31ED8 /* View */,
-				AF3AD32121C6309A00DA30BD /* AppDelegate.swift */,
-				AF3AD32521C6309B00DA30BD /* Main.storyboard */,
-				AF3AD33321C63E6400DA30BD /* MovieListTableViewController.swift */,
-				AF3AD34021C6AD0A00DA30BD /* MovieListCollectionViewController.swift */,
-				AF3AD34621C6CAC600DA30BD /* MovieDetailInfoViewController.swift */,
-				AF3AD32821C6309C00DA30BD /* Assets.xcassets */,
-				AF3AD32A21C6309C00DA30BD /* LaunchScreen.storyboard */,
-				AF3AD32D21C6309C00DA30BD /* Info.plist */,
+				191C1F0C21F3746C00F31ED8 /* Controller */,
+				191C1F0D21F3749700F31ED8 /* Supporting Files */,
 			);
 			path = BoxOffice;
 			sourceTree = "<group>";
