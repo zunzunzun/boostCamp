@@ -102,24 +102,7 @@ extension MovieListCollectionViewController {
     }
 }
 
-extension MovieListCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Singleton.shared.movies.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailInfoVC") as? MovieDetailInfoViewController else {
-            return
-        }
-        viewController.id = Singleton.shared.movies[indexPath.item].id
-        viewController.navigationItem.title = Singleton.shared.movies[indexPath.row].title
-        navigationController?.pushViewController(viewController, animated: true)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 150, height: 250)
-    }
-    
+extension MovieListCollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.movieListCollectionViewCellIdentifier, for: indexPath) as? MovieListCollectionViewCell else {
             return UICollectionViewCell()
@@ -143,5 +126,26 @@ extension MovieListCollectionViewController: UICollectionViewDataSource, UIColle
             }
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return Singleton.shared.movies.count
+    }
+}
+
+extension MovieListCollectionViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailInfoVC") as? MovieDetailInfoViewController else {
+            return
+        }
+        viewController.id = Singleton.shared.movies[indexPath.item].id
+        viewController.navigationItem.title = Singleton.shared.movies[indexPath.row].title
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
+extension MovieListCollectionViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 150, height: 250)
     }
 }
