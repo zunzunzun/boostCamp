@@ -67,6 +67,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		191C1F0121F3480C00F31ED8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AF3AD33A21C646CB00DA30BD /* MovieListTableViewCell.swift */,
+				AF3AD33B21C646CB00DA30BD /* MovieListTableViewCell.xib */,
+				AF3AD34221C6AEBA00DA30BD /* MovieListCollectionViewCell.swift */,
+				AF3AD34321C6AEBA00DA30BD /* MovieListCollectionViewCell.xib */,
+				AF3AD34821C6CD5100DA30BD /* DetailInfoTableViewCell.swift */,
+				AF3AD34921C6CD5100DA30BD /* DetailInfoTableViewCell.xib */,
+				AF3AD34C21C6F40F00DA30BD /* SynopsisTableViewCell.swift */,
+				AF3AD34D21C6F40F00DA30BD /* SynopsisTableViewCell.xib */,
+				AF3AD35421C716FB00DA30BD /* ActorTableViewCell.swift */,
+				AF3AD35521C716FB00DA30BD /* ActorTableViewCell.xib */,
+				AF3AD35021C705C100DA30BD /* CommentTableViewCell.swift */,
+				AF3AD35121C705C100DA30BD /* CommentTableViewCell.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		AF3AD31521C6309A00DA30BD = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				AF3AD33721C6461800DA30BD /* Model */,
+				191C1F0121F3480C00F31ED8 /* View */,
 				AF3AD32121C6309A00DA30BD /* AppDelegate.swift */,
 				AF3AD32521C6309B00DA30BD /* Main.storyboard */,
 				AF3AD33321C63E6400DA30BD /* MovieListTableViewController.swift */,
@@ -104,18 +124,6 @@
 			children = (
 				AF3AD33821C6468E00DA30BD /* Model.swift */,
 				AF3AD33E21C6498800DA30BD /* Singleton.swift */,
-				AF3AD33A21C646CB00DA30BD /* MovieListTableViewCell.swift */,
-				AF3AD33B21C646CB00DA30BD /* MovieListTableViewCell.xib */,
-				AF3AD34221C6AEBA00DA30BD /* MovieListCollectionViewCell.swift */,
-				AF3AD34321C6AEBA00DA30BD /* MovieListCollectionViewCell.xib */,
-				AF3AD34821C6CD5100DA30BD /* DetailInfoTableViewCell.swift */,
-				AF3AD34921C6CD5100DA30BD /* DetailInfoTableViewCell.xib */,
-				AF3AD34C21C6F40F00DA30BD /* SynopsisTableViewCell.swift */,
-				AF3AD34D21C6F40F00DA30BD /* SynopsisTableViewCell.xib */,
-				AF3AD35421C716FB00DA30BD /* ActorTableViewCell.swift */,
-				AF3AD35521C716FB00DA30BD /* ActorTableViewCell.xib */,
-				AF3AD35021C705C100DA30BD /* CommentTableViewCell.swift */,
-				AF3AD35121C705C100DA30BD /* CommentTableViewCell.xib */,
 			);
 			path = Model;
 			sourceTree = "<group>";
