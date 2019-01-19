@@ -44,24 +44,24 @@ class MovieListTableViewController: UIViewController {
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setup()
+        setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.requestMovies(orderType: Singleton.shared.orderType)
+        requestMovies(orderType: Singleton.shared.orderType)
     }
 }
 
 //MARK:- Setup and functions
 extension MovieListTableViewController {
     func setup() {
-        self.tableView.register(UINib(nibName: "MovieListTableViewCell", bundle: nil), forCellReuseIdentifier: self.cellIdentifier)
-        self.addRefreshControl()
+        tableView.register(UINib(nibName: "MovieListTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        addRefreshControl()
     }
     
     func requestMovies(orderType: String) {
-        guard let url = URL(string: Singleton.shared.url + self.detailUrl + orderType) else {
+        guard let url = URL(string: Singleton.shared.url + detailUrl + orderType) else {
             print("URL error!")
             return
         }
@@ -95,13 +95,13 @@ extension MovieListTableViewController {
     func navigationTitleSetup(orderType: String) {
         switch orderType {
         case "0":
-            self.navigationItem.title = "예매율순"
+            navigationItem.title = "예매율순"
         case "1":
-            self.navigationItem.title = "큐레이션"
+            navigationItem.title = "큐레이션"
         case "2":
-            self.navigationItem.title = "개봉일순"
+            navigationItem.title = "개봉일순"
         default:
-            self.navigationItem.title = ""
+            navigationItem.title = ""
             print("unexpected input value")
         }
     }
@@ -110,16 +110,16 @@ extension MovieListTableViewController {
 //MARK:- Refresh Function
 extension MovieListTableViewController {
     func addRefreshControl() {
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl?.addTarget(self, action: #selector(self.movieListRefresh), for: .valueChanged)
-        if let refreshControl = self.refreshControl {
-            self.tableView.addSubview(refreshControl)
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(movieListRefresh), for: .valueChanged)
+        if let refreshControl = refreshControl {
+            tableView.addSubview(refreshControl)
         }
     }
     
     @objc func movieListRefresh() {
-        self.refreshControl?.endRefreshing()
-        self.requestMovies(orderType: Singleton.shared.orderType)
+        refreshControl?.endRefreshing()
+        requestMovies(orderType: Singleton.shared.orderType)
     }
 }
 
@@ -134,17 +134,17 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
         guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailInfoVC") as? MovieDetailInfoViewController else {
             return
         }
         viewController.id = Singleton.shared.movies[indexPath.item].id
         viewController.navigationItem.title = Singleton.shared.movies[indexPath.row].title
-        self.navigationController?.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = self.tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? MovieListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MovieListTableViewCell else {
             return UITableViewCell()
         }
         let movie = Singleton.shared.movies[indexPath.row]

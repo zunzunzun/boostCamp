@@ -31,7 +31,7 @@ class CommentTableViewCell: UITableViewCell {
         var value: Double = 2
         while true {
             if rating >= value {
-                if let imageView = self.ratingStackView.arrangedSubviews[index] as? UIImageView {
+                if let imageView = ratingStackView.arrangedSubviews[index] as? UIImageView {
                     imageView.image = UIImage(named: "icStar")
                 }
                 value = value + 2
@@ -39,7 +39,7 @@ class CommentTableViewCell: UITableViewCell {
             } else {
                 value = value - 1
                 if rating >= value {
-                    if let imageView = self.ratingStackView.arrangedSubviews[index] as? UIImageView {
+                    if let imageView = ratingStackView.arrangedSubviews[index] as? UIImageView {
                         imageView.image = UIImage(named: "icHalfStar")
                     }
                     return

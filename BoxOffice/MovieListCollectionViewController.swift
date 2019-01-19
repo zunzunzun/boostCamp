@@ -38,28 +38,28 @@ class MovieListCollectionViewController: UIViewController {
         alertController.addAction(curationAction)
         alertController.addAction(releaseDateAction)
         alertController.addAction(cancelAction)
-        self.present(alertController, animated: true, completion: nil)
+        present(alertController, animated: true, completion: nil)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setup()
+        setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.requestMovies(orderType: Singleton.shared.orderType)
+        requestMovies(orderType: Singleton.shared.orderType)
     }
 }
 
 extension MovieListCollectionViewController {
     func setup() {
-        self.collectionView.register(UINib(nibName: "MovieListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: self.cellIdentifier)
-        self.addRefreshControl()
+        collectionView.register(UINib(nibName: "MovieListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
+        addRefreshControl()
     }
     
     func requestMovies(orderType: String) {
-        guard let url = URL(string: Singleton.shared.url + self.detailUrl + orderType) else {
+        guard let url = URL(string: Singleton.shared.url + detailUrl + orderType) else {
             print("URL error!")
             return
         }
@@ -92,13 +92,13 @@ extension MovieListCollectionViewController {
     func navigationTitleSetup(orderType: String) {
         switch orderType {
         case "0":
-            self.navigationItem.title = "예매율순"
+            navigationItem.title = "예매율순"
         case "1":
-            self.navigationItem.title = "큐레이션"
+            navigationItem.title = "큐레이션"
         case "2":
-            self.navigationItem.title = "개봉일순"
+            navigationItem.title = "개봉일순"
         default:
-            self.navigationItem.title = ""
+            navigationItem.title = ""
             print("unexpected input value")
         }
     }
@@ -106,16 +106,16 @@ extension MovieListCollectionViewController {
 
 extension MovieListCollectionViewController {
     func addRefreshControl() {
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl?.addTarget(self, action: #selector(self.movieListRefresh), for: .valueChanged)
-        if let refreshControl = self.refreshControl {
-            self.collectionView.addSubview(refreshControl)
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(movieListRefresh), for: .valueChanged)
+        if let refreshControl = refreshControl {
+            collectionView.addSubview(refreshControl)
         }
     }
     
     @objc func movieListRefresh() {
-        self.refreshControl?.endRefreshing()
-        self.requestMovies(orderType: Singleton.shared.orderType)
+        refreshControl?.endRefreshing()
+        requestMovies(orderType: Singleton.shared.orderType)
     }
 }
 
@@ -130,7 +130,7 @@ extension MovieListCollectionViewController: UICollectionViewDataSource, UIColle
         }
         viewController.id = Singleton.shared.movies[indexPath.item].id
         viewController.navigationItem.title = Singleton.shared.movies[indexPath.row].title
-        self.navigationController?.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -138,7 +138,7 @@ extension MovieListCollectionViewController: UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: indexPath) as? MovieListCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? MovieListCollectionViewCell else {
             return UICollectionViewCell()
         }
         let movie = Singleton.shared.movies[indexPath.item]

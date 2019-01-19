@@ -21,94 +21,79 @@ class MovieDetailInfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setup()
+        setup()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.requestDetailInfo()
-        self.requestComment()
+        requestDetailInfo()
+        requestComment()
     }
 }
 
 extension MovieDetailInfoViewController {
     func setup() {
-        self.tableView.register(UINib(nibName: "DetailInfoTableViewCell", bundle: nil), forCellReuseIdentifier: self.cellIdentifier)
-        self.tableView.register(UINib(nibName: "SynopsisTableViewCell", bundle: nil), forCellReuseIdentifier: "synopsisTableViewCell")
-        self.tableView.register(UINib(nibName: "ActorTableViewCell", bundle: nil), forCellReuseIdentifier: "actorTableViewCell")
-        self.tableView.register(UINib(nibName: "CommentTableViewCell", bundle: nil), forCellReuseIdentifier: "commentTableView")
+        tableView.register(UINib(nibName: "DetailInfoTableViewCell", bundle: nil), forCellReuseIdentifier: self.cellIdentifier)
+        tableView.register(UINib(nibName: "SynopsisTableViewCell", bundle: nil), forCellReuseIdentifier: "synopsisTableViewCell")
+        tableView.register(UINib(nibName: "ActorTableViewCell", bundle: nil), forCellReuseIdentifier: "actorTableViewCell")
+        tableView.register(UINib(nibName: "CommentTableViewCell", bundle: nil), forCellReuseIdentifier: "commentTableView")
     }
     
     func requestDetailInfo() {
-        guard let url = URL(string: Singleton.shared.url + self.detailUrl + self.id) else {
+        guard let url = URL(string: Singleton.shared.url + detailUrl + id) else {
             print("URL error!")
             return
         }
-        
         let session = URLSession(configuration: .default)
-        
         let dataTask = session.dataTask(with: url) { (data, response, error) in
-            
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            
             guard let data = data else {
                 print("data error!")
                 return
             }
-            
             do {
                 self.movieDetailInfo = try JSONDecoder().decode(MovieDetailInfo.self, from: data)
-                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
                 print("Movie Detail Info Download Success!")
-            } catch(let error) {
+            } catch let error {
                 print(error.localizedDescription)
                 return
             }
         }
-        
         dataTask.resume()
     }
     
     func requestComment() {
-        guard let url = URL(string: Singleton.shared.url + self.commentUrl + self.id) else {
+        guard let url = URL(string: Singleton.shared.url + commentUrl + id) else {
             print("URL error!")
             return
         }
-        
         let session = URLSession(configuration: .default)
-        
         let dataTask = session.dataTask(with: url) { (data, response, error) in
-            
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            
             guard let data = data else {
                 print("data error!")
                 return
             }
-            
             do {
                 self.commentList = try JSONDecoder().decode(CommentsList.self, from: data)
-                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                
                 print("Comment Download Success!")
-            } catch(let error) {
+            } catch let error {
                 print(error.localizedDescription)
                 return
             }
         }
-        
         dataTask.resume()
     }
 }
@@ -122,7 +107,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
         } else if section == 2 {
             return 1
         } else if section == 3 {
-            return self.commentList?.comments.count ?? 0
+            return commentList?.comments.count ?? 0
         }
         return 0
     }
@@ -147,12 +132,12 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: false)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            guard let cell = self.tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? DetailInfoTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? DetailInfoTableViewCell else {
                 return UITableViewCell()
             }
             if let detailInfo = self.movieDetailInfo {
@@ -163,7 +148,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
                 cell.ratingLabel.text = "\(detailInfo.userRating)"
                 cell.audienceLabel.text = detailInfo.audienceString
                 cell.settingUserRating(rating: detailInfo.userRating)
-                switch self.movieDetailInfo?.grade {
+                switch movieDetailInfo?.grade {
                 case 0:
                     cell.ageImageView.image = UIImage(named: "icAllAges")
                 case 12:
@@ -183,7 +168,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
                             DispatchQueue.main.async {
                                 cell.posterImageView.image = image
                             }
-                        } catch(let error) {
+                        } catch let error {
                             print(error.localizedDescription)
                         }
                     }
@@ -191,24 +176,24 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
             }
             return cell
         } else if indexPath.section == 1 {
-            guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "synopsisTableViewCell", for: indexPath) as? SynopsisTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "synopsisTableViewCell", for: indexPath) as? SynopsisTableViewCell else {
                 return UITableViewCell()
             }
-            cell.textView.text = self.movieDetailInfo?.synopsis
+            cell.textView.text = movieDetailInfo?.synopsis
             return cell
         } else if indexPath.section == 2 {
-            guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "actorTableViewCell", for: indexPath) as? ActorTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "actorTableViewCell", for: indexPath) as? ActorTableViewCell else {
                 return UITableViewCell()
             }
-            cell.directorLabel.text = self.movieDetailInfo?.director
-            cell.actorLabel.text = self.movieDetailInfo?.actor
+            cell.directorLabel.text = movieDetailInfo?.director
+            cell.actorLabel.text = movieDetailInfo?.actor
             cell.actorLabel.adjustsFontSizeToFitWidth = true
             return cell
         } else if indexPath.section == 3 {
-            guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "commentTableView", for: indexPath) as? CommentTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "commentTableView", for: indexPath) as? CommentTableViewCell else {
                 return UITableViewCell()
             }
-            let comment = self.commentList?.comments[indexPath.row]
+            let comment = commentList?.comments[indexPath.row]
             cell.idLabel.text = comment?.writer
             let date = Date(timeIntervalSince1970: comment?.timestamp ?? 0)
             let dateFormatter = DateFormatter()
