@@ -113,21 +113,7 @@ extension MovieListTableViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let movie = Singleton.shared.movies[indexPath.row]
-        cell.titleLabel.text = movie.title
-        cell.ageImageView.image = UIImage(named: movie.imageString)
-        cell.detailInfoLabel.text = "평점 : \(movie.userRating)  예매순위 : \(movie.reservationGrade)  예매율 : \(movie.reservationRate)"
-        cell.releaseDateLabel.text = "개봉일 : \(movie.date)"
-        if let url = URL(string: movie.thumb) {
-            Network.fetchImage(url) { data, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                    return
-                }
-                guard let data = data else { return }
-                let image = UIImage(data: data)
-                cell.posterImageView.image = image
-            }
-        }
+        cell.setup(movie)
         return cell
     }
     
