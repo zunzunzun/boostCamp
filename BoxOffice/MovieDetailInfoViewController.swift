@@ -33,7 +33,7 @@ class MovieDetailInfoViewController: UIViewController {
 
 extension MovieDetailInfoViewController {
     func setup() {
-        tableView.register(UINib(nibName: "DetailInfoTableViewCell", bundle: nil), forCellReuseIdentifier: self.cellIdentifier)
+        tableView.register(UINib(nibName: "DetailInfoTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
         tableView.register(UINib(nibName: "SynopsisTableViewCell", bundle: nil), forCellReuseIdentifier: "synopsisTableViewCell")
         tableView.register(UINib(nibName: "ActorTableViewCell", bundle: nil), forCellReuseIdentifier: "actorTableViewCell")
         tableView.register(UINib(nibName: "CommentTableViewCell", bundle: nil), forCellReuseIdentifier: "commentTableView")
