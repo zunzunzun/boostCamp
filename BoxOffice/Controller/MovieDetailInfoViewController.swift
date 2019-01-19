@@ -105,7 +105,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
                 cell.reservationLabel.text = "\(detailInfo.reservationGrade)위 \(detailInfo.reservationRate)%"
                 cell.ratingLabel.text = "\(detailInfo.userRating)"
                 cell.audienceLabel.text = detailInfo.audienceString
-                cell.setUserRating(to: detailInfo.userRating)
+                cell.setUserRating(detailInfo.userRating, to: cell.ratingStackView)
                 switch movieDetailInfo?.grade {
                 case 0:
                     cell.ageImageView.image = UIImage(named: "icAllAges")
@@ -158,7 +158,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             cell.dataLabel.text = dateFormatter.string(from: date)
             cell.textView.text = comment?.contents
-            cell.setUserRating(to: comment?.rating ?? 0)
+            cell.setUserRating(comment?.rating ?? 0, to: cell.ratingStackView)
             return cell
         }
         return UITableViewCell()
