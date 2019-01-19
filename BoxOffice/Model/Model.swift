@@ -55,8 +55,8 @@ struct MovieDetailInfo: Codable {
     var audienceString: String {
         var value = audience
         var temp: String = ""
-        while(true) {
-            if (value / 1000) == 0 {
+        while true {
+            if value / 1000 == 0 {
                 return "\(value % 1000)\(temp)"
             } else {
                 temp = ",\(value % 1000)\(temp)"

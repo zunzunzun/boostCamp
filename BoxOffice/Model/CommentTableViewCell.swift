@@ -9,12 +9,13 @@
 import UIKit
 
 class CommentTableViewCell: UITableViewCell {
-    @IBOutlet weak var userImageView: UIImageView!
     
+    @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var idLabel: UILabel!
     @IBOutlet weak var ratingStackView: UIStackView!
     @IBOutlet weak var dataLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -22,14 +23,13 @@ class CommentTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     
     func settingUserRating(rating: Double) {
         var index: Int = 0
         var value: Double = 2
-        while(true) {
+        while true {
             if rating >= value {
                 if let imageView = self.ratingStackView.arrangedSubviews[index] as? UIImageView {
                     imageView.image = UIImage(named: "icStar")
@@ -48,7 +48,5 @@ class CommentTableViewCell: UITableViewCell {
                 }
             }
         }
-        
     }
-    
 }

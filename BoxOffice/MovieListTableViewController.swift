@@ -21,29 +21,23 @@ class MovieListTableViewController: UIViewController {
     //MARK: IBAction
     @IBAction func touchUpSettingsButton() {
         let alertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: .actionSheet)
-        
         let reservationRateAction = UIAlertAction(title: "예매율", style: .default, handler: { _ in
             Singleton.shared.orderType = "0"
             self.requestMovies(orderType: Singleton.shared.orderType)
         })
-        
         let curationAction = UIAlertAction(title: "큐레이션", style: .default, handler: { _ in
             Singleton.shared.orderType = "1"
             self.requestMovies(orderType: Singleton.shared.orderType)
         })
-        
         let releaseDateAction = UIAlertAction(title: "개봉일", style: .default, handler: { _ in
             Singleton.shared.orderType = "2"
             self.requestMovies(orderType: Singleton.shared.orderType)
         })
-        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
-        
         alertController.addAction(reservationRateAction)
         alertController.addAction(curationAction)
         alertController.addAction(releaseDateAction)
         alertController.addAction(cancelAction)
-        
         self.present(alertController, animated: true, completion: nil)
     }
 
@@ -57,8 +51,6 @@ class MovieListTableViewController: UIViewController {
         super.viewWillAppear(animated)
         self.requestMovies(orderType: Singleton.shared.orderType)
     }
-    
-    
 }
 
 //MARK:- Setup and functions
@@ -73,40 +65,31 @@ extension MovieListTableViewController {
             print("URL error!")
             return
         }
-        
         let session = URLSession(configuration: .default)
         let dataTask = session.dataTask(with: url) { (data, response, error) in
-            
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            
             guard let data = data else {
                 print("Data error!")
                 return
             }
-            
             do {
                 let apiResponse = try JSONDecoder().decode(APIResponse.self, from: data)
-                
                 Singleton.shared.movies = apiResponse.movies
-                
                 DispatchQueue.main.async {
                     self.navigationTitleSetup(orderType: Singleton.shared.orderType)
                     self.tableView.reloadData()
                 }
-                
                 print("API Response Download Success!")
-            } catch(let error) {
+            } catch let error {
                 print("API response error!")
                 print(error.localizedDescription)
                 return
             }
         }
-        
         dataTask.resume()
-        
     }
     
     func navigationTitleSetup(orderType: String) {
@@ -122,7 +105,6 @@ extension MovieListTableViewController {
             print("unexpected input value")
         }
     }
-    
 }
 
 //MARK:- Refresh Function
@@ -159,18 +141,14 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
         viewController.id = Singleton.shared.movies[indexPath.item].id
         viewController.navigationItem.title = Singleton.shared.movies[indexPath.row].title
         self.navigationController?.pushViewController(viewController, animated: true)
-        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? MovieListTableViewCell else {
             return UITableViewCell()
         }
-        
         let movie = Singleton.shared.movies[indexPath.row]
-        
         cell.titleLabel.text = movie.title
-        
         switch movie.grade {
         case 0:
             cell.ageImageView.image = UIImage(named: "icAllAges")
@@ -183,11 +161,8 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
         default:
             cell.ageImageView.image = nil
         }
-        
         cell.detailInfoLabel.text = "평점 : \(movie.userRating)  예매순위 : \(movie.reservationGrade)  예매율 : \(movie.reservationRate)"
-        
         cell.releaseDateLabel.text = "개봉일 : \(movie.date)"
-        
         OperationQueue().addOperation {
             if let imageURL = URL(string: movie.thumb) {
                 do {
@@ -196,13 +171,11 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
                     DispatchQueue.main.async {
                         cell.posterImageView.image = image
                     }
-                } catch(let error) {
+                } catch let error {
                     print(error.localizedDescription)
                 }
             }
         }
-        
         return cell
     }
-    
 }

@@ -22,7 +22,6 @@ class MovieDetailInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setup()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,7 +29,6 @@ class MovieDetailInfoViewController: UIViewController {
         self.requestDetailInfo()
         self.requestComment()
     }
-
 }
 
 extension MovieDetailInfoViewController {
@@ -137,7 +135,6 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
         } else if indexPath.section == 2 {
             return 100
         }
-        
         return 100
     }
 
@@ -158,7 +155,6 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
             guard let cell = self.tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? DetailInfoTableViewCell else {
                 return UITableViewCell()
             }
-            
             if let detailInfo = self.movieDetailInfo {
                 cell.titleLabel.text = detailInfo.title
                 cell.releaseDateLabel.text = detailInfo.date + " 개봉"
@@ -167,7 +163,6 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
                 cell.ratingLabel.text = "\(detailInfo.userRating)"
                 cell.audienceLabel.text = detailInfo.audienceString
                 cell.settingUserRating(rating: detailInfo.userRating)
-                
                 switch self.movieDetailInfo?.grade {
                 case 0:
                     cell.ageImageView.image = UIImage(named: "icAllAges")
@@ -180,7 +175,6 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
                 default:
                     cell.ageImageView.image = nil
                 }
-                
                 OperationQueue().addOperation {
                     if let imageURL = URL(string: detailInfo.image) {
                         do {
@@ -194,50 +188,36 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
                         }
                     }
                 }
-                
             }
-            
             return cell
         } else if indexPath.section == 1 {
             guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "synopsisTableViewCell", for: indexPath) as? SynopsisTableViewCell else {
                 return UITableViewCell()
             }
-            
             cell.textView.text = self.movieDetailInfo?.synopsis
-            
             return cell
         } else if indexPath.section == 2 {
             guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "actorTableViewCell", for: indexPath) as? ActorTableViewCell else {
                 return UITableViewCell()
             }
-            
             cell.directorLabel.text = self.movieDetailInfo?.director
             cell.actorLabel.text = self.movieDetailInfo?.actor
             cell.actorLabel.adjustsFontSizeToFitWidth = true
-            
             return cell
-            
         } else if indexPath.section == 3 {
             guard let cell = self.tableView.dequeueReusableCell(withIdentifier: "commentTableView", for: indexPath) as? CommentTableViewCell else {
                 return UITableViewCell()
             }
             let comment = self.commentList?.comments[indexPath.row]
             cell.idLabel.text = comment?.writer
-            
             let date = Date(timeIntervalSince1970: comment?.timestamp ?? 0)
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             cell.dataLabel.text = dateFormatter.string(from: date)
             cell.textView.text = comment?.contents
             cell.settingUserRating(rating: comment?.rating ?? 0)
-            
             return cell
-            
         }
-        
         return UITableViewCell()
-        
     }
-    
-    
 }

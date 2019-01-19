@@ -20,5 +20,4 @@ class MovieListCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         titleLabel.adjustsFontSizeToFitWidth = true
     }
-
 }
