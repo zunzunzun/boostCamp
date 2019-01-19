@@ -17,7 +17,6 @@ class MovieListCollectionViewController: UIViewController {
     //MARK: Properties
     var refreshControl: UIRefreshControl?
     let detailUrl = "movies?order_type="
-    let cellIdentifier = "collectionViewCell"
     
     @IBAction func touchUpSettingsButton() {
         let alertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: .actionSheet)
@@ -54,7 +53,7 @@ class MovieListCollectionViewController: UIViewController {
 
 extension MovieListCollectionViewController {
     func setup() {
-        collectionView.register(UINib(nibName: "MovieListCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: cellIdentifier)
+        collectionView.register(UINib(nibName: MovieListCollectionViewCell.description, bundle: nil), forCellWithReuseIdentifier: Constant.movieListCollectionViewCellIdentifier)
         addRefreshControl()
     }
     
@@ -91,13 +90,13 @@ extension MovieListCollectionViewController {
 extension MovieListCollectionViewController {
     func addRefreshControl() {
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(movieListRefresh), for: .valueChanged)
+        refreshControl?.addTarget(self, action: #selector(movieListDidRefresh), for: .valueChanged)
         if let refreshControl = refreshControl {
             collectionView.addSubview(refreshControl)
         }
     }
     
-    @objc func movieListRefresh() {
+    @objc func movieListDidRefresh() {
         refreshControl?.endRefreshing()
         requestMovies(orderType: Singleton.shared.orderType)
     }
@@ -122,7 +121,7 @@ extension MovieListCollectionViewController: UICollectionViewDataSource, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as? MovieListCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.movieListCollectionViewCellIdentifier, for: indexPath) as? MovieListCollectionViewCell else {
             return UICollectionViewCell()
         }
         let movie = Singleton.shared.movies[indexPath.item]

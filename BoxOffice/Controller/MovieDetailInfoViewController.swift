@@ -12,9 +12,6 @@ class MovieDetailInfoViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    let detailUrl: String = "movie?id="
-    let commentUrl: String = "comments?movie_id="
-    let cellIdentifier: String = "detailInfoTableViewCell"
     var movieDetailInfo: MovieDetailInfo?
     var commentList: CommentsList?
     var id: String = ""
@@ -26,74 +23,36 @@ class MovieDetailInfoViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        requestComment()
+        requestData()
     }
 }
 
 extension MovieDetailInfoViewController {
     func setup() {
-        tableView.register(UINib(nibName: "DetailInfoTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        tableView.register(UINib(nibName: "SynopsisTableViewCell", bundle: nil), forCellReuseIdentifier: "synopsisTableViewCell")
-        tableView.register(UINib(nibName: "ActorTableViewCell", bundle: nil), forCellReuseIdentifier: "actorTableViewCell")
-        tableView.register(UINib(nibName: "CommentTableViewCell", bundle: nil), forCellReuseIdentifier: "commentTableView")
+        tableView.register(UINib(nibName: DetailInfoTableViewCell.description, bundle: nil), forCellReuseIdentifier: Constant.movieDetailInfoCellIdentifier)
+        tableView.register(UINib(nibName: SynopsisTableViewCell.description, bundle: nil), forCellReuseIdentifier: Constant.movieDetailSynopsisCellIdentifier)
+        tableView.register(UINib(nibName: ActorTableViewCell.description, bundle: nil), forCellReuseIdentifier: Constant.movieDetailActorCellIdentifier)
+        tableView.register(UINib(nibName: CommentTableViewCell.description, bundle: nil), forCellReuseIdentifier: Constant.movieDetailCommentCellIdentifier)
     }
     
-    func requestDetailInfo() {
-        guard let url = URL(string: Singleton.shared.url + detailUrl + id) else {
-            print("URL error!")
-            return
-        }
-        let session = URLSession(configuration: .default)
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
+    func requestData() {
+        API.shared.requestDetailInfo(movieID: id) { movieDetailInfo, error in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            guard let data = data else {
-                print("data error!")
-                return
-            }
-            do {
-                self.movieDetailInfo = try JSONDecoder().decode(MovieDetailInfo.self, from: data)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+            self.movieDetailInfo = movieDetailInfo
+            API.shared.requestComment(movieID: self.id) { commentList, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
                 }
-                print("Movie Detail Info Download Success!")
-            } catch {
-                print(error.localizedDescription)
-                return
-            }
-        }
-        dataTask.resume()
-    }
-    
-    func requestComment() {
-        guard let url = URL(string: Singleton.shared.url + commentUrl + id) else {
-            print("URL error!")
-            return
-        }
-        let session = URLSession(configuration: .default)
-        let dataTask = session.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            guard let data = data else {
-                print("data error!")
-                return
-            }
-            do {
-                self.commentList = try JSONDecoder().decode(CommentsList.self, from: data)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                self.commentList = commentList
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.reloadData()
                 }
-                print("Comment Download Success!")
-            } catch {
-                print(error.localizedDescription)
-                return
             }
         }
-        dataTask.resume()
     }
 }
 
@@ -136,7 +95,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? DetailInfoTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.movieDetailInfoCellIdentifier, for: indexPath) as? DetailInfoTableViewCell else {
                 return UITableViewCell()
             }
             if let detailInfo = self.movieDetailInfo {
@@ -175,13 +134,13 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
             }
             return cell
         } else if indexPath.section == 1 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "synopsisTableViewCell", for: indexPath) as? SynopsisTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.movieDetailSynopsisCellIdentifier, for: indexPath) as? SynopsisTableViewCell else {
                 return UITableViewCell()
             }
             cell.textView.text = movieDetailInfo?.synopsis
             return cell
         } else if indexPath.section == 2 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "actorTableViewCell", for: indexPath) as? ActorTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.movieDetailActorCellIdentifier, for: indexPath) as? ActorTableViewCell else {
                 return UITableViewCell()
             }
             cell.directorLabel.text = movieDetailInfo?.director
@@ -189,7 +148,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
             cell.actorLabel.adjustsFontSizeToFitWidth = true
             return cell
         } else if indexPath.section == 3 {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "commentTableView", for: indexPath) as? CommentTableViewCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.movieDetailCommentCellIdentifier, for: indexPath) as? CommentTableViewCell else {
                 return UITableViewCell()
             }
             let comment = commentList?.comments[indexPath.row]

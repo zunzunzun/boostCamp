@@ -7,3 +7,18 @@
 //
 
 import Foundation
+
+enum Constant {
+    
+    static let movieListTableViewCellIdentifier = "tableViewCell"
+    
+    static let movieListCollectionViewCellIdentifier = "collectionViewCell"
+    
+    static let movieDetailInfoCellIdentifier = "detailInfoTableViewCell"
+    
+    static let movieDetailSynopsisCellIdentifier = "synopsisTableViewCell"
+    
+    static let movieDetailActorCellIdentifier = "actorTableViewCell"
+    
+    static let movieDetailCommentCellIdentifier = "commentTableView"
+}

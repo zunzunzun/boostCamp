@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+extension NSObject {
+    static var description: String {
+        return description().components(separatedBy: ".").last ?? ""
+    }
+}

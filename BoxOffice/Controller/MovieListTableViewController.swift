@@ -16,7 +16,6 @@ class MovieListTableViewController: UIViewController {
     //MARK: Properties
     var refreshControl: UIRefreshControl?
     let detailUrl = "movies?order_type="
-    let cellIdentifier = "tableViewCell"
     
     //MARK: IBAction
     @IBAction func touchUpSettingsButton() {
@@ -56,8 +55,9 @@ class MovieListTableViewController: UIViewController {
 //MARK:- Setup and functions
 extension MovieListTableViewController {
     func setup() {
-        tableView.register(UINib(nibName: "MovieListTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        tableView.register(UINib(nibName: MovieListTableViewCell.description, bundle: nil), forCellReuseIdentifier: Constant.movieListTableViewCellIdentifier)
         addRefreshControl()
+        
     }
     
     func requestMovies(orderType: String) {
@@ -94,13 +94,13 @@ extension MovieListTableViewController {
 extension MovieListTableViewController {
     func addRefreshControl() {
         refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(movieListRefresh), for: .valueChanged)
+        refreshControl?.addTarget(self, action: #selector(movieListDidRefresh), for: .valueChanged)
         if let refreshControl = refreshControl {
             tableView.refreshControl = refreshControl
         }
     }
     
-    @objc func movieListRefresh() {
+    @objc func movieListDidRefresh() {
         refreshControl?.endRefreshing()
         requestMovies(orderType: Singleton.shared.orderType)
     }
@@ -127,7 +127,7 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? MovieListTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.movieListTableViewCellIdentifier, for: indexPath) as? MovieListTableViewCell else {
             return UITableViewCell()
         }
         let movie = Singleton.shared.movies[indexPath.row]
