@@ -114,7 +114,6 @@ extension MovieListTableViewController {
         refreshControl?.addTarget(self, action: #selector(movieListRefresh), for: .valueChanged)
         if let refreshControl = refreshControl {
             tableView.refreshControl = refreshControl
-            //tableView.addSubview(refreshControl)
         }
     }
     
@@ -131,7 +130,7 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
