@@ -60,7 +60,7 @@ extension MovieDetailInfoViewController {
                     self.tableView.reloadData()
                 }
                 print("Movie Detail Info Download Success!")
-            } catch let error {
+            } catch {
                 print(error.localizedDescription)
                 return
             }
@@ -89,7 +89,7 @@ extension MovieDetailInfoViewController {
                     self.tableView.reloadData()
                 }
                 print("Comment Download Success!")
-            } catch let error {
+            } catch {
                 print(error.localizedDescription)
                 return
             }
@@ -168,7 +168,7 @@ extension MovieDetailInfoViewController: UITableViewDelegate, UITableViewDataSou
                             DispatchQueue.main.async {
                                 cell.posterImageView.image = image
                             }
-                        } catch let error {
+                        } catch {
                             print(error.localizedDescription)
                         }
                     }

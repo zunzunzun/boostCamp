@@ -154,7 +154,7 @@ extension MovieListTableViewController: UITableViewDelegate, UITableViewDataSour
                     DispatchQueue.main.async {
                         cell.posterImageView.image = image
                     }
-                } catch let error {
+                } catch {
                     print(error.localizedDescription)
                 }
             }
