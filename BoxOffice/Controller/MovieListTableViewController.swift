@@ -112,7 +112,6 @@ extension MovieListTableViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constant.movieListTableViewCellIdentifier, for: indexPath) as? MovieListTableViewCell else {
             return UITableViewCell()
         }
-        cell.delegate = self
         let movie = Singleton.shared.movies[indexPath.row]
         cell.titleLabel.text = movie.title
         cell.ageImageView.image = UIImage(named: movie.imageString)
