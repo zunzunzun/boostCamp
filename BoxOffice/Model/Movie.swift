@@ -16,6 +16,15 @@ struct Movie: Codable {
     let reservationRate: Double
     let id: String
     
+    var imageString: String {
+        switch grade {
+        case 0:
+            return "icAllAges"
+        default:
+            return "ic\(grade)"
+        }
+    }
+    
     enum CodingKeys: String, CodingKey {
         case title, date, thumb, grade, id
         case reservationGrade = "reservation_grade"

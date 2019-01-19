@@ -24,6 +24,15 @@ struct MovieDetailInfo: Codable {
     let date: String
     let id: String
     
+    var imageString: String {
+        switch grade {
+        case 0:
+            return "icAllAges"
+        default:
+            return "ic\(grade)"
+        }
+    }
+    
     var audienceString: String? {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal

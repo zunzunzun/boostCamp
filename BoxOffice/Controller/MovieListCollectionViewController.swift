@@ -128,18 +128,7 @@ extension MovieListCollectionViewController: UICollectionViewDataSource, UIColle
         cell.titleLabel.text = movie.title
         cell.detailInfoLabel.text = "\(movie.grade)위(\(movie.userRating)) / \(movie.reservationRate)%"
         cell.releaseDateLabel.text = movie.date
-        switch movie.grade {
-        case 0:
-            cell.ageImageView.image = UIImage(named: "icAllAges")
-        case 12:
-            cell.ageImageView.image = UIImage(named: "ic12")
-        case 15:
-            cell.ageImageView.image = UIImage(named: "ic15")
-        case 19:
-            cell.ageImageView.image = UIImage(named: "ic19")
-        default:
-            cell.ageImageView.image = nil
-        }
+        cell.ageImageView.image = UIImage(named: movie.imageString)
         OperationQueue().addOperation {
             if let imageURL = URL(string: movie.thumb) {
                 do {
