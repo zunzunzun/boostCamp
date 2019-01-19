@@ -22,8 +22,7 @@ class DetailInfoTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        let view = self.ratingView.arrangedSubviews[0] as! UIImageView
+        let view = ratingView.arrangedSubviews[0] as! UIImageView
         view.image = UIImage(named: "icHalfStar")
     }
 
@@ -37,7 +36,7 @@ class DetailInfoTableViewCell: UITableViewCell {
         var value: Double = 2
         while true {
             if rating >= value {
-                if let imageView = self.ratingView.arrangedSubviews[index] as? UIImageView {
+                if let imageView = ratingView.arrangedSubviews[index] as? UIImageView {
                     imageView.image = UIImage(named: "icStar")
                 }
                 value = value + 2
@@ -45,7 +44,7 @@ class DetailInfoTableViewCell: UITableViewCell {
             } else {
                 value = value - 1
                 if rating >= value {
-                    if let imageView = self.ratingView.arrangedSubviews[index] as? UIImageView {
+                    if let imageView = ratingView.arrangedSubviews[index] as? UIImageView {
                         imageView.image = UIImage(named: "icHalfStar")
                     }
                     return
