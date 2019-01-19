@@ -113,7 +113,8 @@ extension MovieListTableViewController {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(movieListRefresh), for: .valueChanged)
         if let refreshControl = refreshControl {
-            tableView.addSubview(refreshControl)
+            tableView.refreshControl = refreshControl
+            //tableView.addSubview(refreshControl)
         }
     }
     
