@@ -1,5 +1,5 @@
 //
-//  CommentTableViewCell.swift
+//  SynopsisTableViewCell.swift
 //  BoxOffice
 //
 //  Created by LEE JUNSANG on 2018. 12. 17..
@@ -8,14 +8,10 @@
 
 import UIKit
 
-class CommentTableViewCell: UITableViewCell, RatingEnabled {
+class SynopsisTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var idLabel: UILabel!
-    @IBOutlet weak var ratingStackView: UIStackView!
-    @IBOutlet weak var dataLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -23,6 +19,8 @@ class CommentTableViewCell: UITableViewCell, RatingEnabled {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+
         // Configure the view for the selected state
     }
+    
 }

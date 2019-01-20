@@ -20,13 +20,5 @@ class MovieListCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         titleLabel.adjustsFontSizeToFitWidth = true
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        posterImageView.image = nil
-        ageImageView.image = nil
-        titleLabel.text = nil
-        detailInfoLabel.text = nil
-        releaseDateLabel.text = nil
-    }
+
 }
