@@ -14,9 +14,9 @@ class Network {
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { data, response, error in
             completion(data, error)
+            session.finishTasksAndInvalidate()
         }
         task.resume()
-        session.finishTasksAndInvalidate()
     }
     
     class func fetchImage(_ url: URL, completion: @escaping (Data?, Error?) -> Void) {
