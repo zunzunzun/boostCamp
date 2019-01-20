@@ -11,11 +11,9 @@ import Foundation
 class Singleton {
     static let shared = Singleton()
     
-    private init(){
-    }
+    private init() { }
     
     let url = "http://connect-boxoffice.run.goorm.io/"
     var orderType: String = "0"
     var movies: [Movie] = []
-    
 }
